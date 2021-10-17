@@ -1,17 +1,16 @@
 require("dotenv").config();
-import { PrismaClient } from "@prisma/client";
 import cors from "cors";
 import express from "express";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import typeDefs from "./typeDefs";
 import { ApolloServer } from "apollo-server-express";
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
+import typeDefs from "./typeDefs";
 import http from "http";
-
+import { PrismaClient } from "@prisma/client";
+import resolvers from "./resolvers";
 export const prisma = new PrismaClient();
-
 async function startApolloServer() {
-  let schema = makeExecutableSchema({ typeDefs, resolvers: {} });
+  let schema = makeExecutableSchema({ typeDefs, resolvers });
   const PORT = process.env.PORT || 8000;
   const app = express();
   app.use(cors());
